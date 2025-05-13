@@ -53,7 +53,9 @@ class MainActivity : AppCompatActivity() {
         //setContentView(R.layout.activity_main)
 
         mapView = findViewById(R.id.mapview)
-        mapView.map.move(
+        val map = mapView.getMapWindow().map
+        map.setRotateGesturesEnabled(false)
+        map.move(
             CameraPosition(Point(55.751244, 37.618423), 14.0f, 0.0f, 0.0f)
         )
     }
