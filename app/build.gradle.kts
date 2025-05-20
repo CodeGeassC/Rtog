@@ -53,6 +53,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.yandex.android:maps.mobile:4.15.0-lite")
+    implementation("com.google.android.gms:play-services-location:21.3.0")
 
 
 }

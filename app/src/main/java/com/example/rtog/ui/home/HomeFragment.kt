@@ -1,21 +1,27 @@
 package com.example.rtog.ui.home
 
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.rtog.MainActivity
 import com.example.rtog.R
 import com.example.rtog.databinding.FragmentHomeBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.layers.ObjectEvent
 import com.yandex.mapkit.map.CameraPosition
-import com.yandex.mapkit.map.CameraUpdateReason
-import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.mapkit.user_location.UserLocationLayer
 import com.yandex.mapkit.user_location.UserLocationObjectListener
@@ -29,6 +35,8 @@ class HomeFragment : Fragment(), UserLocationObjectListener {
     private lateinit var mapView: MapView
     private lateinit var userLocationLayer: UserLocationLayer
     var userLocation: Point? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +56,16 @@ class HomeFragment : Fragment(), UserLocationObjectListener {
         val map = mapView.mapWindow.map
         map.isRotateGesturesEnabled = false
 
+        // Инициализация Google Location Services
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                locationResult.lastLocation?.let { location ->
+                    userLocation = Point(location.latitude, location.longitude)
+                }
+            }
+        }
 
         return binding.root
     }
@@ -55,24 +73,21 @@ class HomeFragment : Fragment(), UserLocationObjectListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*val mainActivity = activity as? MainActivity
+        val mainActivity = activity as? MainActivity
 
         // Обработка нажатия на кнопку "К моей геопозиции"
         binding.btnMyLocation.setOnClickListener {
-            val userLocation = mainActivity?.userLocation
-            if (userLocation != null) {
-                mapView?.map?.move(
+            userLocation?.let {
+                mapView.map?.move(
                     CameraPosition(
-                        Point(userLocation.latitude, userLocation.longitude),
+                        Point(it.latitude, it.longitude),
                         16.0f, 0.0f, 0.0f
                     ),
                     Animation(Animation.Type.SMOOTH, 1.0f),
                     null
                 )
-            } else {
-                Toast.makeText(requireContext(), "Геопозиция не получена", Toast.LENGTH_SHORT).show()
             }
-        }*/
+        }
     }
 
     override fun onDestroyView() {
@@ -84,9 +99,24 @@ class HomeFragment : Fragment(), UserLocationObjectListener {
         super.onStart()
         MapKitFactory.getInstance().onStart()
         mapView.onStart()
+
+        // Проверка разрешений
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            val request = LocationRequest.Builder(3000L).setPriority(Priority.PRIORITY_HIGH_ACCURACY).build()
+            fusedLocationClient.requestLocationUpdates(
+                request,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+        }
     }
 
     override fun onStop() {
+        fusedLocationClient.removeLocationUpdates(locationCallback)
         mapView.onStop()
         MapKitFactory.getInstance().onStop()
         super.onStop()
@@ -96,18 +126,14 @@ class HomeFragment : Fragment(), UserLocationObjectListener {
     override fun onObjectAdded(userLocationView: UserLocationView) {
         val mainActivity = activity as? MainActivity
         userLocationView.arrow.setIcon(ImageProvider.fromResource(mainActivity, R.drawable.user_arrow))
-        userLocationView.pin.setIcon(ImageProvider.fromResource(mainActivity, R.drawable.user_pin))
+        //userLocationView.pin.setIcon(ImageProvider.fromResource(mainActivity, R.drawable.user_pin))
     }
 
     override fun onObjectRemoved(userLocationView: UserLocationView) {}
     override fun onObjectUpdated(
-        p0: UserLocationView,
-        p1: ObjectEvent
+        userLocationView: UserLocationView,
+        objectEvent: ObjectEvent
     ) {
-        /* TODO("Not yet implemented") */
-    }
-
-    fun onObjectUpdated(userLocationView: UserLocationView, placemark: PlacemarkMapObject) {
-        userLocation = placemark.geometry // <-- Сохраняем точку
+        //userLocation = userLocationView.arrow.geometry
     }
 }
