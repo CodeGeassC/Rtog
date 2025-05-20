@@ -54,4 +54,5 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.yandex.android:maps.mobile:4.15.0-lite")
 
+
 }

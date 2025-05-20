@@ -20,11 +20,6 @@
     android:theme="@style/Theme.Rtog"
     tools:targetApi="31"><!-- Если у вас есть кастомный класс Application -->
 
-    <!-- API-ключ Яндекс.Карт -->
-    <meta-data
-        android:name="com.yandex.maps.apikey"
-        android:value="e5ff1a16-9199-4803-a756-914f69c6d6b5" />
-
 
     <activity
         android:name=".MainActivity"
