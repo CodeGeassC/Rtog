@@ -1,4 +1,4 @@
-package com.example.rtog.ui.home
+package com.example.rtog.ui.map
 
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -10,7 +10,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.rtog.MainActivity
 import com.example.rtog.R
-import com.example.rtog.databinding.FragmentHomeBinding
+import com.example.rtog.databinding.FragmentMapBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -28,9 +28,9 @@ import com.yandex.mapkit.user_location.UserLocationObjectListener
 import com.yandex.mapkit.user_location.UserLocationView
 import com.yandex.runtime.image.ImageProvider
 
-class HomeFragment : Fragment(), UserLocationObjectListener {
+class MapFragment : Fragment(), UserLocationObjectListener {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentMapBinding? = null
     private val binding get() = _binding!!
     private lateinit var mapView: MapView
     private lateinit var userLocationLayer: UserLocationLayer
@@ -42,7 +42,7 @@ class HomeFragment : Fragment(), UserLocationObjectListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentMapBinding.inflate(inflater, container, false)
 
         mapView = binding.mapview
 

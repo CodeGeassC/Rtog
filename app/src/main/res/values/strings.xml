@@ -8,7 +8,7 @@
     <string name="action_settings">Настройки</string>
     <string name="to_my_location">К моей геопозиции</string>
 
-    <string name="menu_home">Карта</string>
-    <string name="menu_gallery">Профиль</string>
-    <string name="menu_slideshow">Служба поддержки</string>
+    <string name="menu_map">Карта</string>
+    <string name="menu_profile">Профиль</string>
+    <string name="menu_support">Служба поддержки</string>
 </resources>
