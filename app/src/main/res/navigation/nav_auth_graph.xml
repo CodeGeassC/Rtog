@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.rtog.login.LoginFragment"
+        android:label="Start"
+        tools:layout="@layout/fragment_auth_login">
+        <action
+            android:id="@+id/action_loginFragment_to_loginTelegramFragment"
+            app:destination="@id/loginTelegramFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginTelegramFragment"
+        android:name="com.example.rtog.login.LoginTelegramFragment"
+        android:label="Telegram Login"
+        tools:layout="@layout/fragment_auth_login_telegram">
+        <action
+            android:id="@+id/action_loginTelegramFragment_to_regFragment"
+            app:destination="@id/regFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/regFragment"
+        android:name="com.example.rtog.login.RegistrationFragment"
+        android:label="Registration"
+        tools:layout="@layout/fragment_auth_registration" />
+</navigation>

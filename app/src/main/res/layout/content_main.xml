@@ -13,6 +13,6 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/mobile_navigation" />
+        app:navGraph="@navigation/nav_sidebar" />
 
 </FrameLayout>

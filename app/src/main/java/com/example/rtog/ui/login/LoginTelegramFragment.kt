@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.rtog.R
-import com.example.rtog.databinding.FragmentStartBinding
+import com.example.rtog.databinding.FragmentAuthLoginTelegramBinding
 
-class StartFragment : Fragment() {
+class LoginTelegramFragment : Fragment() {
 
-    private var _binding: FragmentStartBinding? = null
+    private var _binding: FragmentAuthLoginTelegramBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -19,10 +19,11 @@ class StartFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        _binding = FragmentStartBinding.inflate(inflater, container, false)
+        _binding = FragmentAuthLoginTelegramBinding.inflate(inflater, container, false)
 
-        binding.button.setOnClickListener {
-            findNavController().navigate(R.id.action_startFragment_to_loginTgFragment)
+        binding.btnConfirm.setOnClickListener {
+            // Пока просто переходим на регистрацию
+            findNavController().navigate(R.id.action_loginTelegramFragment_to_regFragment)
         }
 
         return binding.root

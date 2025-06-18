@@ -10,7 +10,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.rtog.MainActivity
 import com.example.rtog.R
-import com.example.rtog.databinding.FragmentMapBinding
+import com.example.rtog.databinding.FragmentSidenavMapBinding
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -30,7 +30,7 @@ import com.yandex.runtime.image.ImageProvider
 
 class MapFragment : Fragment(), UserLocationObjectListener {
 
-    private var _binding: FragmentMapBinding? = null
+    private var _binding: FragmentSidenavMapBinding? = null
     private val binding get() = _binding!!
     private lateinit var mapView: MapView
     private lateinit var userLocationLayer: UserLocationLayer
@@ -42,7 +42,7 @@ class MapFragment : Fragment(), UserLocationObjectListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMapBinding.inflate(inflater, container, false)
+        _binding = FragmentSidenavMapBinding.inflate(inflater, container, false)
 
         mapView = binding.mapview
 

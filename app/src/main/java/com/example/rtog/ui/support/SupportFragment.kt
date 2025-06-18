@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.rtog.databinding.FragmentSupportBinding
+import com.example.rtog.databinding.FragmentSidenavSupportBinding
 
 class SupportFragment : Fragment() {
 
-    private var _binding: FragmentSupportBinding? = null
+    private var _binding: FragmentSidenavSupportBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -25,7 +25,7 @@ class SupportFragment : Fragment() {
         val supportViewModel =
             ViewModelProvider(this).get(SupportViewModel::class.java)
 
-        _binding = FragmentSupportBinding.inflate(inflater, container, false)
+        _binding = FragmentSidenavSupportBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textSupport
