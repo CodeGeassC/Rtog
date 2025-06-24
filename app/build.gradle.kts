@@ -53,13 +53,13 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    implementation("com.yandex.android:maps.mobile:4.15.0-lite")
+    implementation("com.yandex.android:maps.mobile:4.17.0-full")
     implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation("androidx.credentials:credentials:1.5.0")
     implementation("androidx.credentials:credentials-play-services-auth:1.5.0")
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
     kapt("com.github.bumptech.glide:compiler:4.15.1")
-
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
 
 }

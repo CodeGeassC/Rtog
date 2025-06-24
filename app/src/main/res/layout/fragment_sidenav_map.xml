@@ -5,11 +5,43 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
-    <!-- MapView отображается сразу -->
     <com.yandex.mapkit.mapview.MapView
         android:id="@+id/mapview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/searchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <EditText
+            android:id="@+id/etSearchAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:hint="Введите адрес или место"
+            android:inputType="text"
+            android:shadowColor="#FFFFFF"
+            android:shadowRadius="1"
+            android:textAlignment="viewStart"
+            android:textColor="#000000"
+            android:textColorHighlight="#000000"
+            android:textColorHint="#000000"
+            android:textColorLink="#000000"
+            android:typeface="sans" />
+
+        <ListView
+            android:id="@+id/listSearchResults"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+    </LinearLayout>
+
+
+    <!-- MapView отображается сразу -->
 
     <!-- Кнопка "К моей геопозиции" -->
     <ImageButton
