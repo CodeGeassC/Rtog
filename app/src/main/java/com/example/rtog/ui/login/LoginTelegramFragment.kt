@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.rtog.R
 import com.example.rtog.databinding.FragmentAuthLoginTelegramBinding
-import com.example.rtog.ui.profile.ProfileFragment
+import com.example.rtog.types.FullName
+import com.example.rtog.ui.profile.ProfileViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -24,6 +26,7 @@ class LoginTelegramFragment : Fragment() {
 
     private var _binding: FragmentAuthLoginTelegramBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: ProfileViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +35,12 @@ class LoginTelegramFragment : Fragment() {
     ): View {
         _binding = FragmentAuthLoginTelegramBinding.inflate(inflater, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding.btnConfirm.setOnClickListener {
             val inputCode = binding.textInput.text.toString()
             if (inputCode.isEmpty()) {
@@ -39,7 +48,7 @@ class LoginTelegramFragment : Fragment() {
                 return@setOnClickListener
             }
             lifecycleScope.launch {
-                val response = sendAPIAuthRequest(inputCode)
+                val response = sendAPILoginRequest(inputCode)
                 if (response == null) {
                     Toast.makeText(requireContext(), "Произошла ошибка запроса", Toast.LENGTH_SHORT).show()
                     return@launch
@@ -47,15 +56,17 @@ class LoginTelegramFragment : Fragment() {
                 val responseType = response.getString("type")
                 when (responseType) {
                     "login" -> {
-                        val sessionToken = response.getString("session_token") // нужно будет сохранить
+                        val sessionToken = response.getString("session_token")
                         val userData = response.getJSONObject("user_data");
                         val surname = userData.getString("surname")
                         val name = userData.getString("name")
                         val patronymic = userData.getString("patronymic")
-                        (parentFragment?.parentFragment as? ProfileFragment)?.login()
+                        viewModel.rtogSessionToken.value = sessionToken
+                        viewModel.userFullName.value = FullName(surname, name, patronymic)
                     }
                     "register" -> {
-                        val sessionToken = response.getString("session_token") // нужно будет сохранить
+                        val sessionToken = response.getString("session_token")
+                        viewModel.rtogSessionToken.value = sessionToken
                         findNavController().navigate(R.id.action_loginTelegramFragment_to_regFragment)
                     }
                     "error" -> {
@@ -67,11 +78,9 @@ class LoginTelegramFragment : Fragment() {
                 }
             }
         }
-
-        return binding.root
     }
 
-    suspend fun sendAPIAuthRequest(code: String): JSONObject? {
+    suspend fun sendAPILoginRequest(code: String): JSONObject? {
         return withContext(Dispatchers.IO) {
 
             val url = HttpUrl.Builder()

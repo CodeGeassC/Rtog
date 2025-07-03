@@ -1,17 +1,12 @@
 package com.example.rtog.ui.profile
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.rtog.types.FullName
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class ProfileViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "userData.getString(\"surname\")\n" +
-                "userData.getString(\"name\")\n" +
-                "userData.getString(\"patronymic\")"
-    }
-    val text: LiveData<String> = _text
+    val rtogSessionToken = MutableStateFlow<String?>(null)
+    val userFullName = MutableStateFlow<FullName?>(null)
 
-    var registered : Boolean = false
 }
